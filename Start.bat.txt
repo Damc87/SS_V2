@@ -1,0 +1,33 @@
+@echo off
+setlocal
+
+REM Zažene Gradnja - stroški (DEV) z minimalnimi težavami na Windows
+REM Datoteko shrani v root projekta (kjer je package.json)
+
+cd /d "%~dp0"
+
+echo ===============================
+echo  Gradnja - stroski (DEV start)
+echo ===============================
+
+REM Preveri, ce obstaja node_modules, sicer naredi npm install
+if not exist "node_modules\" (
+  echo [1/2] Nameščam odvisnosti (npm install) ...
+  npm install
+  if errorlevel 1 (
+    echo.
+    echo NAPAKA: npm install ni uspel.
+    echo Preveri, da imas namescen Node.js (LTS) in internet.
+    pause
+    exit /b 1
+  )
+)
+
+echo.
+echo [2/2] Zaganjam aplikacijo (npm run dev) ...
+npm run dev
+
+echo.
+echo Aplikacija se je zaprla ali je prislo do napake.
+pause
+endlocal
